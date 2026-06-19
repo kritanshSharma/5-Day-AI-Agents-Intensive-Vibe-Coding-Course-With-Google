@@ -1,0 +1,6 @@
+{
+  "name": "Retro Volleyball RPG",
+  "description": "A 2D retro-RPG style volleyball game with timing-based saves, sand beach movement modifiers, and 2v2 volleyball play.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
