@@ -813,17 +813,20 @@ export default function App() {
                 });
               }
 
+              const missEmojis = ['😭', '🤦‍♂️', '🙀', '💔', '❌', '😓', '🙄', '😱', '💥', '🌧️', '💨'];
+              const randomEmoji1 = missEmojis[Math.floor(Math.random() * missEmojis.length)];
+
               particlesRef.current.push({
                 id: Math.random().toString(),
                 x: player.x,
                 y: player.y - 40,
                 vx: 0, vy: -0.5,
                 color: '#eb4d4b',
-                size: 10,
-                life: 40,
-                maxLife: 40,
+                size: 14,
+                life: 50,
+                maxLife: 50,
                 type: 'EMOTE',
-                label: ''
+                label: ` ${randomEmoji1} `
               });
 
               setDialogText('Kōrai Hoshiumi: The little giant is serving crazzzy. Move faster, Shoyo!');
@@ -1423,7 +1426,7 @@ export default function App() {
                     audio.playChime();
                     startTransition(() => {
                       setGameState('LEVEL_2_SUCCESS');
-                      setDialogText('CONGRATULATIONS! You dominated Copacabana Brazil Beach! Shoyo & Heitor wins!');
+                      setDialogText('CONGRATULATIONS! You dominated Copacabana Brazil Beach! Shoyo & Kageyama wins!');
                     });
                   }, 1200);
                 } else {
@@ -1515,16 +1518,16 @@ export default function App() {
               setHudPulse(true);
               setTimeout(() => setHudPulse(false), 600);
 
-              // Shoyo team (who lost point) shouts loser phrase
-              const shoyoTeamLosePhrases = ['Monster here', 'Scary', 'King on court'];
+              // Shoyo team (who lost point) shouts loser phrase with emojis
+              const shoyoTeamLosePhrases = ['Monster serve! 😭', 'So fast! 🙀', 'Missed it! 🤦‍♂️', 'Darn! 😓', 'Too strong! 💔'];
               const randomShoyoLose = shoyoTeamLosePhrases[Math.floor(Math.random() * shoyoTeamLosePhrases.length)];
               particlesRef.current.push({
                 id: Math.random().toString(),
                 x: playerRef.current.x,
                 y: playerRef.current.y - 40,
                 vx: 0, vy: -0.4,
-                color: '#ffeaa7',
-                size: 10,
+                color: '#ff7675', // bright coral pink for maximum contrast over yellow sand!
+                size: 12,
                 life: 60,
                 maxLife: 60,
                 type: 'EMOTE',
@@ -1744,7 +1747,7 @@ export default function App() {
                 ))}
 
                 <h1 className="text-[14px] font-extrabold text-amber-400 tracking-wider mb-0.5 drop-shadow-md">🏆 COPACOBANA CHAMPIONS! 🏆</h1>
-                <p className="text-[9px] font-mono text-emerald-400 mb-2 leading-tight">YOU DEFEATED GOJO SATORU ON THE BRAZIL SANDS!</p>
+                <p className="text-[9px] font-mono text-emerald-400 mb-2 leading-tight">YOU DEFEATED AOBA JOHSAI ON THE BRAZIL SANDS!</p>
 
                 {/* Legendary Haikyuu Quote */}
                 <div className="my-[3px] p-[5px] bg-slate-900 border border-amber-500/20 rounded-md max-w-[92%] select-text">
