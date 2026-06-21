@@ -26,6 +26,35 @@ export const GBAFrame: React.FC<GBAFrameProps> = ({
 
   // Visual button states (held state for active feedbacks)
   const [activeKeys, setActiveKeys] = React.useState<Record<string, boolean>>({});
+  const [scale, setScale] = React.useState(1);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const parentWidth = window.innerWidth;
+      const parentHeight = window.innerHeight;
+      
+      const targetWidth = 580;
+      const targetHeight = 740;
+      
+      const paddingX = 24; 
+      const paddingY = 48;
+      
+      const widthScale = parentWidth < targetWidth + paddingX ? (parentWidth - paddingX) / targetWidth : 1;
+      const heightScale = parentHeight < targetHeight + paddingY ? (parentHeight - paddingY) / targetHeight : 1;
+      
+      const bestScale = Math.max(0.4, Math.min(1, widthScale, heightScale));
+      setScale(bestScale);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    const timer = setTimeout(handleResize, 100);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timer);
+    };
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -93,10 +122,31 @@ export const GBAFrame: React.FC<GBAFrameProps> = ({
   }, [onDpadPress, onButtonPress]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-900 text-neutral-100 font-sans p-4 user-select-none select-none">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-900 text-neutral-100 font-sans p-2 sm:p-4 user-select-none select-none overflow-hidden">
       
-      {/* Sleek Outer GBA console shell container */}
-      <div id="gba-console" className="w-full max-w-[580px] bg-indigo-900 border-8 border-indigo-950 rounded-[40px] shadow-2xl p-6 relative flex flex-col items-center transition-all duration-300">
+      {/* Precision Scaled Console Holder: aligns perfectly in center and fits any viewport */}
+      <div 
+        className="relative flex items-center justify-center transition-all duration-100 ease-out"
+        style={{
+          width: `${580 * scale}px`,
+          height: `${740 * scale}px`,
+          minWidth: `${580 * scale}px`,
+          minHeight: `${740 * scale}px`,
+        }}
+      >
+        {/* Sleek Outer GBA console shell container */}
+        <div 
+          id="gba-console" 
+          className="w-[580px] h-[740px] bg-indigo-900 border-8 border-indigo-950 rounded-[40px] shadow-2xl p-6 relative flex flex-col items-center justify-between"
+          style={{
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            flexShrink: 0,
+          }}
+        >
         
         {/* Dynamic glossy reflections on glass screen borders */}
         <div className="absolute top-0 left-0 right-0 h-4 bg-white/10 rounded-t-[32px] pointer-events-none" />
@@ -290,6 +340,7 @@ export const GBAFrame: React.FC<GBAFrameProps> = ({
           </div>
         </div>
 
+      </div>
       </div>
     </div>
   );
